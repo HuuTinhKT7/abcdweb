@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Capybara - Thương mại điện tử</title>
+    <!-- Bootstrap CSS -->
+     
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --dark-color: #212529;
+            --light-color: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Navigation */
+        .navbar-brand {
+            font-weight: 700;
+        }
+        
+        .nav-cart-badge {
+            font-size: 0.65rem;
+            top: -5px;
+            right: -5px;
+        }
+        
+        /* Button Navigation */
+        .nav-buttons .btn {
+            font-size: 0.85rem;
+            padding: 0.35rem 0.5rem;
+            white-space: nowrap;
+        }
+        
+        /* Product Cards */
+        .product-card {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .product-img-container {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+            padding: 10px;
+        }
+        
+        .product-img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 3em;
+        }
+        
+        .price-container {
+            margin-bottom: 0.5rem;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: var(--secondary-color);
+            font-size: 0.95rem;
+        }
+        
+        .current-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        
+        .discount-percent {
+            color: #dc3545;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .btn-buy {
+            font-size: 0.85rem;
+            padding: 0.4rem 0.5rem;
+            font-weight: 600;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+        }
+        
+        .footer-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-link {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .footer-link:hover {
+            color: var(--light-color);
+        }
+        
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 767.98px) {
+            .product-img-container {
+                height: 120px;
+            }
+            
+            .nav-buttons .btn {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-paw me-2"></i>Shop Capybara
+            </a>
+            
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Navigation Content -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <!-- Language Dropdown -->
+                    <li class="nav-item dropdown me-2">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-language me-1"></i>Tiếng Việt
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item active" href="#">Tiếng Việt</a></li>
+                            <li><a class="dropdown-item" href="#">Tiếng Anh</a></li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Contact Link -->
+                    <li class="nav-item me-2">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-headset me-1"></i>Liên hệ
+                        </a>
+                    </li>
+                    
+                    <!-- Shopping Cart -->
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light position-relative" href="#">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger nav-cart-badge">
+                                3
+                                <span class="visually-hidden">sản phẩm trong giỏ hàng</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Button Navigation -->
+    <div class="bg-light py-2 border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap nav-buttons gap-1">
+                <button class="btn btn-outline-primary active">Hàng chọn giá hời</button>
+                <button class="btn btn-outline-primary">Mã giảm giá</button>
+                <button class="btn btn-outline-primary">Miễn phí ship</button>
+                <button class="btn btn-outline-primary">Giờ Săn Sale</button>
+                <button class="btn btn-outline-primary">Hàng Quốc Tế</button>
+                <button class="btn btn-outline-primary">Nạp Thẻ & Dịch Vụ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="py-4">
+        <div class="container">
+            <!-- Products Grid -->
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3">
+                <!-- Product 1 -->
+                <div class="col">
+                    <div class="card product-card h-100 border-0">
+                        <div class="product-img-container position-relative">
+                            <img src="Ao-thun-tron-cotton-mau-den.jpg" class="product-img" alt="Balo Laptop">
+                            <span class="discount-badge bg-danger">-10%</span>
+                        </div>
+                        <div class="card-body pt-2 pb-3 px-3">
+                            <h5 class="product-title">Balo Laptop Chống Sốc</h5>
+                            <div class="price-container">
+                                <span class="original-price">700.000₫</span>
+                                <div class="d-flex align-items-center">
+                                    <span class="current-price text-danger me-2">630.000₫</span>
+                                    <span class="discount-percent">(-10%)</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary w-100 btn-buy">
+                                <i class="fas fa-cart-plus me-1"></i>Mua ngay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="col">
+                    <div class="card product-card h-100 border-0">
+                        <div class="product-img-container position-relative">
+                            <img src="Ao-thun-tron-cotton-mau-den.jpg" class="product-img" alt="Chuột Gaming">
+                            <span class="discount-badge bg-danger">-15%</span>
+                        </div>
+                        <div class="card-body pt-2 pb-3 px-3">
+                            <h5 class="product-title">Chuột Gaming DPI Cao</h5>
+                            <div class="price-container">
+                                <span class="original-price">900.000₫</span>
+                                <div class="d-flex align-items-center">
+                                    <span class="current-price text-danger me-2">760.000₫</span>
+                                    <span class="discount-percent">(-15%)</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary w-100 btn-buy">
+                                <i class="fas fa-cart-plus me-1"></i>Mua ngay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="col">
+                    <div class="card product-card h-100 border-0">
+                        <div class="product-img-container">
+                            <img src="Ao-thun-tron-cotton-mau-den.jpg" class="product-img" alt="Tai nghe không dây">
+                        </div>
+                        <div class="card-body pt-2 pb-3 px-3">
+                            <h5 class="product-title">Tai nghe Bluetooth Không dây</h5>
+                            <div class="price-container">
+                                <span class="current-price">1.000.000₫</span>
+                            </div>
+                            <button class="btn btn-primary w-100 btn-buy">
+                                <i class="fas fa-cart-plus me-1"></i>Mua ngay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="col">
+                    <div class="card product-card h-100 border-0">
+                        <div class="product-img-container">
+                            <img src="Ao-thun-tron-cotton-mau-den.jpg" class="product-img" alt="Tai nghe có dây">
+                        </div>
+                        <div class="card-body pt-2 pb-3 px-3">
+                            <h5 class="product-title">Tai nghe Gaming có dây</h5>
+                            <div class="price-container">
+                                <span class="current-price">1.500.000₫</span>
+                            </div>
+                            <button class="btn btn-primary w-100 btn-buy">
+                                <i class="fas fa-cart-plus me-1"></i>Mua ngay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 5 -->
+                <div class="col">
+                    <div class="card product-card h-100 border-0">
+                        <div class="product-img-container">
+                            <img src="Ao-thun-tron-cotton-mau-den.jpg" class="product-img" alt="Đồng hồ thông minh">
+                        </div>
+                        <div class="card-body pt-2 pb-3 px-3">
+                            <h5 class="product-title">Đồng hồ Thông minh</h5>
+                            <div class="price-container">
+                                <span class="current-price">2.500.000₫</span>
+                            </div>
+                            <button class="btn btn-primary w-100 btn-buy">
+                                <i class="fas fa-cart-plus me-1"></i>Mua ngay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 6 -->
+                <div class="col">
+                    <div class="card product-card h-100 border-0">
+                        <div class="product-img-container position-relative">
+                            <img src="Ao-thun-tron-cotton-mau-den.jpg" class="product-img" alt="Áo thun">
+                            <span class="discount-badge bg-danger">-10%</span>
+                        </div>
+                        <div class="card-body pt-2 pb-3 px-3">
+                            <h5 class="product-title">Áo thun Nam Nữ form rộng</h5>
+                            <div class="price-container">
+                                <span class="original-price">500.000₫</span>
+                                <div class="d-flex align-items-center">
+                                    <span class="current-price text-danger me-2">450.000₫</span>
+                                    <span class="discount-percent">(-10%)</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary w-100 btn-buy">
+                                <i class="fas fa-cart-plus me-1"></i>Mua ngay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row">
+                <!-- Policies -->
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">Chính sách</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="footer-link">Chính sách bảo hành</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Chính sách đổi trả</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Chính sách giao hàng</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">Liên hệ</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            <span>123 Đường ABC, Quận 1, TP.HCM</span>
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-phone-alt me-2"></i>
+                            <span>0123 456 789</span>
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-envelope me-2"></i>
+                            <span>info@shopcapybara.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Social Media -->
+                <div class="col-md-4">
+                    <h5 class="footer-title">Kết nối với chúng tôi</h5>
+                    <div class="mb-3">
+                        <a href="#" class="social-icon text-white me-1">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon text-white me-1">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon text-white me-1">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon text-white">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <img src="https://via.placeholder.com/100x40?text=Payment+Methods" alt="Payment Methods" class="img-fluid">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <img src="https://via.placeholder.com/150x50?text=Certifications" alt="Certifications" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-4 border-secondary">
+            
+            <!-- Copyright -->
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <span class="text-muted">© 2025 Shop Capybara. Bảo lưu mọi quyền.</span>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <span class="text-muted">Giấy chứng nhận ĐKKD số: 0123456789</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Thêm đoạn JavaScript xử lý nút Mua ngay vào ĐÂY -->
+    <script>
+        // Lấy tất cả các nút "Mua ngay"
+        const buyButtons = document.querySelectorAll('.btn-buy');
+        
+        // Thêm sự kiện click cho từng nút
+        buyButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault(); // Ngăn chặn hành vi mặc định
+                
+                // Lấy thông tin sản phẩm
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('.product-title').textContent;
+                const productPrice = productCard.querySelector('.current-price').textContent;
+                
+                // Hiển thị thông báo
+                alert(`✅ Đã thêm vào giỏ hàng:\n\n🛍️ Sản phẩm: ${productName}\n💰 Giá: ${productPrice}\n\nCảm ơn bạn đã mua sắm tại Shop Capybara!`);
+                
+                // Tăng số lượng giỏ hàng (tùy chọn)
+                const cartBadge = document.querySelector('.nav-cart-badge');
+                let currentCount = parseInt(cartBadge.textContent) || 0;
+                cartBadge.textContent = currentCount + 1;
+            });
+        });
+    </script>
+</body>
+</html>
